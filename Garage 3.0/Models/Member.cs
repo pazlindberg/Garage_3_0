@@ -13,6 +13,6 @@ namespace Garage_3._0.Models
 
         public string FullName => $"{FirstName} {LastName}";
 
-        
+        public ICollection<Vehicle> Vehicles { get; set; }
     }
 }
