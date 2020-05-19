@@ -10,29 +10,29 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="View">
+        <form asp-action="Parking">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="RegNr" class="control-label"></label>
                 <input asp-for="RegNr" class="form-control" />
                 <span asp-validation-for="RegNr" class="text-danger"></span>
-            </div>
+            </div>*@
 
             <div class="form-group">
-                @Html.LabelFor(model => model.RegNr, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.RegNr, new SelectList(string.Empty, "Value", "Text"), "--Select City--", new { style = "width:200px" })
+                @Html.LabelFor(model => model.RegNr, htmlAttributes: new { @class = "control-label" })
+                @*<div class="col-md-10">*@
+                    @Html.DropDownListFor(model => model.RegNr, new SelectList(string.Empty, "Value", "Text"), "--Select reg.nr--", new { @class = "form-control" })
 
                     @Html.ValidationMessageFor(model => model.RegNr, "", new { @class = "text-danger" })
-                </div>
+
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Park" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -53,28 +53,26 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-
-
-
-
 <script>
-
     $(document).ready(function () {
 
         $("#Email").change(function () {
-            $("#RegNr").empty();
+            $("select#RegNr").empty();
+
+            $("select#RegNr").attr("disabled", true);
+
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("GetRegNr")',
                 dataType: 'json',
-                data: { id: $("#Email").val() },
+                data: { email: $("#Email").val() },
                 success: function (regNr) {
-
                     $.each(regNr, function (i, regNr) {
-                        $("#RegNr").append('<option value="'
-                            + regNr.Value + '">'
-                            + regNr.Text + '</option>');
+                        $("select#RegNr").append('<option value="'
+                            + regNr.value + '">'
+                            + regNr.text + '</option>');
                     });
+                    setTimeout($("select#RegNr").attr("disabled", false), 10)
                 },
                 error: function (ex) {
                     alert('Failed.' + ex);

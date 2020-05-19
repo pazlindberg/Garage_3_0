@@ -156,12 +156,13 @@ namespace Garage_3._0.Controllers
         }
 
 
-        public JsonResult GetRegNr(string regNr)
+        public JsonResult GetRegNr(string email)
         {
-            var ddlRegNr = _context.Vehicle.Where(x => x.RegNr == regNr).ToList(); //dropdownlist
+            var memberId= _context.Member.Where(x => x.Email == email).Select(x => x.Id).FirstOrDefault();
+            var ddlRegNr = _context.Vehicle.Where(x => x.MemberId == memberId).ToList(); //dropdownlist
             List<SelectListItem> liRegNr = new List<SelectListItem>();
 
-            liRegNr.Add(new SelectListItem { Text = "--Select State--", Value = "0" });
+            liRegNr.Add(new SelectListItem { Text = "--Select State--", Value = "0", });
             if (ddlRegNr != null)
             {
                 foreach (var x in ddlRegNr)
