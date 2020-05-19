@@ -44,7 +44,7 @@ namespace Garage_3._0.Controllers
         }
 
         // GET: Vehicles/Create
-        public IActionResult Create()
+        public IActionResult CreateVehicle()
         {
             return View();
         }
@@ -54,7 +54,8 @@ namespace Garage_3._0.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RegNr,ParkingSpaceId,VehicleTypeId,MemberId,NrOfWheels,Color,Brand,Model,TimeOfArrival")] Vehicle vehicle)
+
+        public async Task<IActionResult> CreateVehicle([Bind("Id,RegNr,ParkingSpaceId,VehicleTypeId,MemberId,NrOfWheels,Color,Brand,Model,TimeOfArrival")] Vehicle vehicle)
         {
             if (ModelState.IsValid)
             {
