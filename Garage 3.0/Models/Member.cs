@@ -21,7 +21,7 @@ namespace Garage_3._0.Models
     }
 }
 
-
+//--.
 /*** MemberController???      new Member { Id = 1, RegNr = "US_LM126", vehicleType = VehicleType.Airplane, NrOfWheels = 4 },
 
 [AllowAnonymous]
