@@ -57,6 +57,10 @@ namespace Garage_3._0.Data
                   new VehicleType { Id = 3, TypeName = "Motorcycle", Size = 2 },
                   new VehicleType { Id = 4, TypeName = "Bus", Size = 2 }
                  );
+
+
+            //modelBuilder.Entity<Park_VehicleViewModel>()
+            //       .HasNoKey();
         }
     }
 }

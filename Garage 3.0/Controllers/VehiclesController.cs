@@ -49,6 +49,11 @@ namespace Garage_3._0.Controllers
             return View();
         }
 
+        public IActionResult Park()
+        {
+            return View();
+        }
+
         // POST: Vehicles/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -148,6 +153,23 @@ namespace Garage_3._0.Controllers
         private bool VehicleExists(int id)
         {
             return _context.Vehicle.Any(e => e.Id == id);
+        }
+
+
+        public JsonResult GetRegNr(string regNr)
+        {
+            var ddlRegNr = _context.Vehicle.Where(x => x.RegNr == regNr).ToList(); //dropdownlist
+            List<SelectListItem> liRegNr = new List<SelectListItem>();
+
+            liRegNr.Add(new SelectListItem { Text = "--Select State--", Value = "0" });
+            if (ddlRegNr != null)
+            {
+                foreach (var x in ddlRegNr)
+                {
+                    liRegNr.Add(new SelectListItem { Text = x.RegNr, Value = x.Id.ToString() });
+                }
+            }
+            return Json(new SelectList(liRegNr, "Value", "Text", new Newtonsoft.Json.JsonSerializerSettings()));
         }
     }
 }
