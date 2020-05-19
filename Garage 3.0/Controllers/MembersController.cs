@@ -42,7 +42,7 @@ namespace Garage_3._0.Controllers
 
             return View(member);
         }
-        [HttpPost]
+        [HttpPost]//todo: asså ja, ..?
         public JsonResult IsAlreadySigned(string UserEmailId)
         {
 
