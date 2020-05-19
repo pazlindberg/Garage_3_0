@@ -42,6 +42,44 @@ namespace Garage_3._0.Controllers
 
             return View(member);
         }
+        [HttpPost]
+        public JsonResult IsAlreadySigned(string UserEmailId)
+        {
+
+            return Json(IsUserAvailable(UserEmailId));
+
+        }
+        public bool IsUserAvailable(string EmailId)
+        {
+        //    // Assume these details coming from database  
+        //    List<Member> RegisterUsers = new List<Member>()
+        //{
+
+        //    //new Member {Email="vithal.wadje@abc.com" ,FirstName="fname",LastName="lname" }
+        //    new Member { Email = "vithal1.wadje@abc.com", FirstName = "fname1", LastName = "lname1" },
+        //    new Member { Email = "vithal2.wadje@abc.com", FirstName = "fname2", LastName = "lname2" }
+
+        //};
+            var RegEmailId = (from u in _context.Member
+                              where u.Email.ToLower() == EmailId.ToLower()
+                              select new { EmailId }).FirstOrDefault();
+
+
+            bool status;
+            if (RegEmailId != null)
+            {
+                //Already registered  
+                status = false;
+            }
+            else
+            {
+                //Available to use  
+                status = true;
+            }
+
+
+            return status;
+        }
 
         // GET: Members/Create
         public IActionResult Create()
