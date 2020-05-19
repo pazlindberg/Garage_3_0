@@ -4,14 +4,16 @@ using Garage_3._0.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Garage_3._0.Migrations
 {
     [DbContext(typeof(Garage_3_0Context))]
-    partial class Garage_3_0ContextModelSnapshot : ModelSnapshot
+    [Migration("20200519121451_0519-init2")]
+    partial class _0519init2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
