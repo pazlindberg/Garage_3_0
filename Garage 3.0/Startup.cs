@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Garage_3._0.Data;
+using Garage_3._0.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
+
+
 
 namespace Garage_3._0
 {
@@ -29,6 +34,11 @@ namespace Garage_3._0
 
             services.AddDbContext<Garage_3_0Context>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("Garage_3_0Context")));
+
+            services.Configure<HtmlHelperOptions>(o => o.ClientValidationEnabled = false);
+  
+            services.AddScoped<ILookupService, LookupService>();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +54,9 @@ namespace Garage_3._0
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

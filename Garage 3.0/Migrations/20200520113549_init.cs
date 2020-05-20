@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Garage_3._0.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,6 +20,20 @@ namespace Garage_3._0.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Member", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VehicleType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TypeName = table.Column<string>(nullable: true),
+                    Size = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VehicleType", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -41,20 +55,18 @@ namespace Garage_3._0.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vehicle", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "VehicleType",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TypeName = table.Column<string>(nullable: true),
-                    Size = table.Column<double>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_VehicleType", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Vehicle_Member_MemberId",
+                        column: x => x.MemberId,
+                        principalTable: "Member",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Vehicle_VehicleType_VehicleTypeId",
+                        column: x => x.VehicleTypeId,
+                        principalTable: "VehicleType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -70,22 +82,6 @@ namespace Garage_3._0.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Vehicle",
-                columns: new[] { "Id", "Brand", "Color", "MemberId", "Model", "NrOfWheels", "ParkingSpaceId", "RegNr", "TimeOfArrival", "VehicleTypeId" },
-                values: new object[,]
-                {
-                    { 1, "aaa", "White", 1, "model1", 4, null, "US_LM126", new DateTime(2020, 5, 18, 12, 27, 59, 393, DateTimeKind.Local).AddTicks(7262), 1 },
-                    { 2, "bbb", "Black", 2, "model2", 1, null, "BVG17", new DateTime(2020, 5, 18, 12, 27, 59, 395, DateTimeKind.Local).AddTicks(9815), 2 },
-                    { 3, "ccc", "Blue", 3, "model3", 6, null, "BUS123", new DateTime(2020, 5, 18, 12, 27, 59, 395, DateTimeKind.Local).AddTicks(9858), 3 },
-                    { 4, "ddd", "Red", 4, "model4", 4, null, "ABC123", new DateTime(2020, 5, 18, 12, 27, 59, 395, DateTimeKind.Local).AddTicks(9864), 4 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Vehicle",
-                columns: new[] { "Id", "Brand", "Color", "MemberId", "Model", "NrOfWheels", "ParkingSpaceId", "RegNr", "VehicleTypeId" },
-                values: new object[] { 5, "eee", "Yellow", 1, "model5", 2, null, "ADZ967", 2 });
-
-            migrationBuilder.InsertData(
                 table: "VehicleType",
                 columns: new[] { "Id", "Size", "TypeName" },
                 values: new object[,]
@@ -96,6 +92,29 @@ namespace Garage_3._0.Migrations
                     { 4, 2.0, "Bus" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Vehicle",
+                columns: new[] { "Id", "Brand", "Color", "MemberId", "Model", "NrOfWheels", "ParkingSpaceId", "RegNr", "TimeOfArrival", "VehicleTypeId" },
+                values: new object[,]
+                {
+                    { 1, "aaa", "White", 1, "model1", 4, null, "US_LM126", new DateTime(2020, 5, 19, 12, 5, 49, 71, DateTimeKind.Local).AddTicks(6968), 1 },
+                    { 2, "bbb", "Black", 2, "model2", 1, null, "BVG17", new DateTime(2020, 5, 19, 12, 5, 49, 73, DateTimeKind.Local).AddTicks(5456), 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Vehicle",
+                columns: new[] { "Id", "Brand", "Color", "MemberId", "Model", "NrOfWheels", "ParkingSpaceId", "RegNr", "VehicleTypeId" },
+                values: new object[] { 5, "eee", "Yellow", 1, "model5", 2, null, "ADZ967", 2 });
+
+            migrationBuilder.InsertData(
+                table: "Vehicle",
+                columns: new[] { "Id", "Brand", "Color", "MemberId", "Model", "NrOfWheels", "ParkingSpaceId", "RegNr", "TimeOfArrival", "VehicleTypeId" },
+                values: new object[,]
+                {
+                    { 3, "ccc", "Blue", 3, "model3", 6, null, "BUS123", new DateTime(2020, 5, 19, 12, 5, 49, 73, DateTimeKind.Local).AddTicks(5492), 3 },
+                    { 4, "ddd", "Red", 4, "model4", 4, null, "ABC123", new DateTime(2020, 5, 19, 12, 5, 49, 73, DateTimeKind.Local).AddTicks(5499), 4 }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Member_Email",
                 table: "Member",
@@ -103,19 +122,29 @@ namespace Garage_3._0.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Vehicle_MemberId",
+                table: "Vehicle",
+                column: "MemberId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Vehicle_RegNr",
                 table: "Vehicle",
                 column: "RegNr",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vehicle_VehicleTypeId",
+                table: "Vehicle",
+                column: "VehicleTypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Member");
+                name: "Vehicle");
 
             migrationBuilder.DropTable(
-                name: "Vehicle");
+                name: "Member");
 
             migrationBuilder.DropTable(
                 name: "VehicleType");

@@ -4,14 +4,16 @@ using Garage_3._0.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Garage_3._0.Migrations
 {
     [DbContext(typeof(Garage_3_0Context))]
-    partial class Garage_3_0ContextModelSnapshot : ModelSnapshot
+    [Migration("20200520071357_0520membervalidation3")]
+    partial class _0520membervalidation3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,12 +127,8 @@ namespace Garage_3._0.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MemberId");
-
                     b.HasIndex("RegNr")
                         .IsUnique();
-
-                    b.HasIndex("VehicleTypeId");
 
                     b.ToTable("Vehicle");
 
@@ -144,7 +142,7 @@ namespace Garage_3._0.Migrations
                             Model = "model1",
                             NrOfWheels = 4,
                             RegNr = "US_LM126",
-                            TimeOfArrival = new DateTime(2020, 5, 19, 12, 2, 48, 169, DateTimeKind.Local).AddTicks(9967),
+                            TimeOfArrival = new DateTime(2020, 5, 19, 7, 43, 56, 885, DateTimeKind.Local).AddTicks(1973),
                             VehicleTypeId = 1
                         },
                         new
@@ -156,7 +154,7 @@ namespace Garage_3._0.Migrations
                             Model = "model2",
                             NrOfWheels = 1,
                             RegNr = "BVG17",
-                            TimeOfArrival = new DateTime(2020, 5, 19, 12, 2, 48, 173, DateTimeKind.Local).AddTicks(9018),
+                            TimeOfArrival = new DateTime(2020, 5, 19, 7, 43, 56, 889, DateTimeKind.Local).AddTicks(669),
                             VehicleTypeId = 2
                         },
                         new
@@ -168,7 +166,7 @@ namespace Garage_3._0.Migrations
                             Model = "model3",
                             NrOfWheels = 6,
                             RegNr = "BUS123",
-                            TimeOfArrival = new DateTime(2020, 5, 19, 12, 2, 48, 173, DateTimeKind.Local).AddTicks(9082),
+                            TimeOfArrival = new DateTime(2020, 5, 19, 7, 43, 56, 889, DateTimeKind.Local).AddTicks(733),
                             VehicleTypeId = 3
                         },
                         new
@@ -180,7 +178,7 @@ namespace Garage_3._0.Migrations
                             Model = "model4",
                             NrOfWheels = 4,
                             RegNr = "ABC123",
-                            TimeOfArrival = new DateTime(2020, 5, 19, 12, 2, 48, 173, DateTimeKind.Local).AddTicks(9093),
+                            TimeOfArrival = new DateTime(2020, 5, 19, 7, 43, 56, 889, DateTimeKind.Local).AddTicks(744),
                             VehicleTypeId = 4
                         },
                         new
@@ -239,21 +237,6 @@ namespace Garage_3._0.Migrations
                             Size = 2.0,
                             TypeName = "Bus"
                         });
-                });
-
-            modelBuilder.Entity("Garage_3._0.Models.Vehicle", b =>
-                {
-                    b.HasOne("Garage_3._0.Models.Member", "Member")
-                        .WithMany("Vehicles")
-                        .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Garage_3._0.Models.VehicleType", "VehicleType")
-                        .WithMany("Vehicles")
-                        .HasForeignKey("VehicleTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
