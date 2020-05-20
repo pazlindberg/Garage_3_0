@@ -4,14 +4,16 @@ using Garage_3._0.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Garage_3._0.Migrations
 {
     [DbContext(typeof(Garage_3_0Context))]
-    partial class Garage_3_0ContextModelSnapshot : ModelSnapshot
+    [Migration("20200520070941_0520membervalidation1")]
+    partial class _0520membervalidation1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,7 +142,7 @@ namespace Garage_3._0.Migrations
                             Model = "model1",
                             NrOfWheels = 4,
                             RegNr = "US_LM126",
-                            TimeOfArrival = new DateTime(2020, 5, 19, 8, 26, 30, 611, DateTimeKind.Local).AddTicks(6306),
+                            TimeOfArrival = new DateTime(2020, 5, 19, 7, 39, 40, 690, DateTimeKind.Local).AddTicks(1337),
                             VehicleTypeId = 1
                         },
                         new
@@ -152,7 +154,7 @@ namespace Garage_3._0.Migrations
                             Model = "model2",
                             NrOfWheels = 1,
                             RegNr = "BVG17",
-                            TimeOfArrival = new DateTime(2020, 5, 19, 8, 26, 30, 615, DateTimeKind.Local).AddTicks(2713),
+                            TimeOfArrival = new DateTime(2020, 5, 19, 7, 39, 40, 694, DateTimeKind.Local).AddTicks(1748),
                             VehicleTypeId = 2
                         },
                         new
@@ -164,7 +166,7 @@ namespace Garage_3._0.Migrations
                             Model = "model3",
                             NrOfWheels = 6,
                             RegNr = "BUS123",
-                            TimeOfArrival = new DateTime(2020, 5, 19, 8, 26, 30, 615, DateTimeKind.Local).AddTicks(2771),
+                            TimeOfArrival = new DateTime(2020, 5, 19, 7, 39, 40, 694, DateTimeKind.Local).AddTicks(1820),
                             VehicleTypeId = 3
                         },
                         new
@@ -176,7 +178,7 @@ namespace Garage_3._0.Migrations
                             Model = "model4",
                             NrOfWheels = 4,
                             RegNr = "ABC123",
-                            TimeOfArrival = new DateTime(2020, 5, 19, 8, 26, 30, 615, DateTimeKind.Local).AddTicks(2781),
+                            TimeOfArrival = new DateTime(2020, 5, 19, 7, 39, 40, 694, DateTimeKind.Local).AddTicks(1831),
                             VehicleTypeId = 4
                         },
                         new
