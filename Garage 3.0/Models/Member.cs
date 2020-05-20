@@ -20,6 +20,7 @@ namespace Garage_3._0.Models
         // raden ovan fuckar upp create (inget händer när man trycker create efter att ha
         // fyllt i formuläret - troligen måste checkexistmember implementeras men hur är kanske frågan(?)
         public string Email { get; set; }
+        public ICollection<Vehicle> Vehicles { get; set; }
     }
 }
 
