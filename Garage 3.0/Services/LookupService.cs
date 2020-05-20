@@ -17,15 +17,14 @@ namespace Garage_3._0.Services
             _context = context;
         }
 
-        public List<SelectListItem> VehicleTypes()
-        {
-            var x = _context.VehicleType.Select(v =>
+        public List<SelectListItem> VehicleTypes() =>
+             _context.VehicleType
+                .Select(v =>
                           new SelectListItem()
                           {
                               Value = v.Id.ToString(),
                               Text = v.TypeName
-                          }).ToList();
-            return (x);
-        }
+                          })
+                .ToList();
     }
 }

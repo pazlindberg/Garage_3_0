@@ -61,6 +61,7 @@ namespace Garage_3._0.Controllers
             {
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
+                TempData["UserMessage"] = "Save vehicle successful";
                 return RedirectToAction(nameof(Index));
             }
             return View(vehicle);
@@ -100,6 +101,7 @@ namespace Garage_3._0.Controllers
                 {
                     _context.Update(vehicle);
                     await _context.SaveChangesAsync();
+                    TempData["UserMessage"] = "Update vehicle successful";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -150,5 +152,20 @@ namespace Garage_3._0.Controllers
         {
             return _context.Vehicle.Any(e => e.Id == id);
         }
+
+
+        public async Task<IActionResult> Filter(string regNrSearch)
+        {
+            var model = string.IsNullOrWhiteSpace(regNrSearch) ?
+                _context.Vehicle :
+                _context.Vehicle.Where(m => m.RegNr.ToLower().Contains(regNrSearch.ToLower()));
+
+            //model = genre == null ?
+            //    model :
+            //    model.Where(m => m.Genre == (Genre)genre);
+
+            return View(nameof(Index), await model.ToListAsync());
+        }
+
     }
 }
