@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Garage_3._0.Migrations
 {
     [DbContext(typeof(Garage_3_0Context))]
-    [Migration("20200520113248_0520membervalidation5")]
-    partial class _0520membervalidation5
+    [Migration("20200520134618_0520m1")]
+    partial class _0520m1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -146,7 +146,7 @@ namespace Garage_3._0.Migrations
                             Model = "model1",
                             NrOfWheels = 4,
                             RegNr = "US_LM126",
-                            TimeOfArrival = new DateTime(2020, 5, 19, 12, 2, 48, 169, DateTimeKind.Local).AddTicks(9967),
+                            TimeOfArrival = new DateTime(2020, 5, 19, 14, 16, 17, 434, DateTimeKind.Local).AddTicks(9974),
                             VehicleTypeId = 1
                         },
                         new
@@ -158,7 +158,7 @@ namespace Garage_3._0.Migrations
                             Model = "model2",
                             NrOfWheels = 1,
                             RegNr = "BVG17",
-                            TimeOfArrival = new DateTime(2020, 5, 19, 12, 2, 48, 173, DateTimeKind.Local).AddTicks(9018),
+                            TimeOfArrival = new DateTime(2020, 5, 19, 14, 16, 17, 439, DateTimeKind.Local).AddTicks(726),
                             VehicleTypeId = 2
                         },
                         new
@@ -170,7 +170,7 @@ namespace Garage_3._0.Migrations
                             Model = "model3",
                             NrOfWheels = 6,
                             RegNr = "BUS123",
-                            TimeOfArrival = new DateTime(2020, 5, 19, 12, 2, 48, 173, DateTimeKind.Local).AddTicks(9082),
+                            TimeOfArrival = new DateTime(2020, 5, 19, 14, 16, 17, 439, DateTimeKind.Local).AddTicks(822),
                             VehicleTypeId = 3
                         },
                         new
@@ -182,7 +182,7 @@ namespace Garage_3._0.Migrations
                             Model = "model4",
                             NrOfWheels = 4,
                             RegNr = "ABC123",
-                            TimeOfArrival = new DateTime(2020, 5, 19, 12, 2, 48, 173, DateTimeKind.Local).AddTicks(9093),
+                            TimeOfArrival = new DateTime(2020, 5, 19, 14, 16, 17, 439, DateTimeKind.Local).AddTicks(835),
                             VehicleTypeId = 4
                         },
                         new
@@ -246,7 +246,7 @@ namespace Garage_3._0.Migrations
             modelBuilder.Entity("Garage_3._0.Models.Vehicle", b =>
                 {
                     b.HasOne("Garage_3._0.Models.Member", "Member")
-                        .WithMany("Vehicles")
+                        .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
