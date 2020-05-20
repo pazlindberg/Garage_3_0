@@ -42,14 +42,16 @@ namespace Garage_3._0.Controllers
 
             return View(member);
         }
+        //    [HttpPost]//todo: asså ja, ..?
+        //CheckEmailExist([Bind(Prefix="ms_person.email"]string email)
         [HttpPost]
-        public JsonResult IsAlreadySigned(string UserEmailId)
+        public JsonResult IsAlreadySigned(string Email)
         {
 
-            return Json(IsUserAvailable(UserEmailId));
+            return Json(IsUserAvailable(Email));
 
         }
-        public bool IsUserAvailable(string EmailId)
+        public bool IsUserAvailable(string Email)
         {
         //    // Assume these details coming from database  
         //    List<Member> RegisterUsers = new List<Member>()
@@ -61,8 +63,8 @@ namespace Garage_3._0.Controllers
 
         //};
             var RegEmailId = (from u in _context.Member
-                              where u.Email.ToLower() == EmailId.ToLower()
-                              select new { EmailId }).FirstOrDefault();
+                              where u.Email.ToLower() == Email.ToLower()
+                              select new { Email }).FirstOrDefault();
 
 
             bool status;
