@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Garage_3._0.Data;
 using Garage_3._0.Models;
+using Garage_3._0.ViewModels;
 
 namespace Garage_3._0.Controllers
 {
@@ -24,6 +25,24 @@ namespace Garage_3._0.Controllers
         {
             return View(await _context.Vehicle.ToListAsync());
         }
+
+        public async Task<IActionResult> Overview()
+        {
+
+            var model = _context.Vehicle
+                                .Include(v => v.VehicleType)
+                                .Include(v => v.Member)
+                                .Select(v => new OverviewViewModel
+                                {
+                                    Email = v.Member.Email,
+                                    TypeName = v.VehicleType.TypeName,
+                                    RegNr = v.RegNr,
+                                    TimeInGarage = v.TimeInGarage
+                                });
+
+           return View(await model.ToListAsync());
+        }
+
 
         // GET: Vehicles/Details/5
         public async Task<IActionResult> Details(int? id)
