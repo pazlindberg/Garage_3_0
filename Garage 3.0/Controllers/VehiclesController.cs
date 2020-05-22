@@ -44,7 +44,7 @@ namespace Garage_3._0.Controllers
         }
 
         // GET: Vehicles/Create
-        public IActionResult Create()
+        public IActionResult CreateVehicle()
         {
             return View();
         }
@@ -59,12 +59,14 @@ namespace Garage_3._0.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RegNr,ParkingSpaceId,VehicleTypeId,MemberId,NrOfWheels,Color,Brand,Model,TimeOfArrival")] Vehicle vehicle)
+
+        public async Task<IActionResult> CreateVehicle([Bind("Id,RegNr,ParkingSpaceId,VehicleTypeId,MemberId,NrOfWheels,Color,Brand,Model,TimeOfArrival")] Vehicle vehicle)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
+                TempData["UserMessage"] = "Save vehicle successful";
                 return RedirectToAction(nameof(Index));
             }
             return View(vehicle);
@@ -104,6 +106,7 @@ namespace Garage_3._0.Controllers
                 {
                     _context.Update(vehicle);
                     await _context.SaveChangesAsync();
+                    TempData["UserMessage"] = "Update vehicle successful";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -154,6 +157,21 @@ namespace Garage_3._0.Controllers
         {
             return _context.Vehicle.Any(e => e.Id == id);
         }
+
+
+        public async Task<IActionResult> Filter(string regNrSearch)
+        {
+            var model = string.IsNullOrWhiteSpace(regNrSearch) ?
+                _context.Vehicle :
+                _context.Vehicle.Where(m => m.RegNr.ToLower().Contains(regNrSearch.ToLower()));
+
+            //model = genre == null ?
+            //    model :
+            //    model.Where(m => m.Genre == (Genre)genre);
+
+            return View(nameof(Index), await model.ToListAsync());
+        }
+
 
 
         public JsonResult GetRegNr(string email)

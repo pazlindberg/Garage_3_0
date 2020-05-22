@@ -16,10 +16,16 @@ namespace Garage_3._0.Models
         [Required(ErrorMessage = "E-mail is required")]
         [RegularExpression(@"^[a-zA-Z0-9_\.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}$", ErrorMessage = "Email is not valid")]
         [StringLength(30, ErrorMessage = "Email must not be more than 30 char")]
-        [Remote("CheckExistMember", "Member", HttpMethod = "POST", ErrorMessage = "Email already exists")]
+        [Remote("IsAlreadySigned", "Members", HttpMethod = "POST", ErrorMessage = "Email already exists")]
         public string Email { get; set; }
+        // raden ovan fuckar upp create (inget händer när man trycker create efter att ha
+        // fyllt i formuläret - troligen måste checkexistmember implementeras men hur är kanske frågan(?)
+
     }
 }
+
+
+
 
 
 /*** MemberController???      new Member { Id = 1, RegNr = "US_LM126", vehicleType = VehicleType.Airplane, NrOfWheels = 4 },

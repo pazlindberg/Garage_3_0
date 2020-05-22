@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Garage_3._0</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 <body>
     <header>
@@ -31,6 +32,14 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            @if (TempData["UserMessage"] != null)
+            {
+                /* var message =(MessageVM)TempData["UserMessage"];*/
+                <div class="alert alert-success" id="success-alert">
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    <strong>Confirm! </strong>@TempData["UserMessage"]
+                </div>
+            }
             @RenderBody()
         </main>
     </div>
@@ -43,6 +52,12 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $(function () {
+            $("#success-alert").hide();
+            $("#success-alert").fadeTo(3000, 500).slideUp(500, function () { $("#success-alert").slideUp(500); });
+        });
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

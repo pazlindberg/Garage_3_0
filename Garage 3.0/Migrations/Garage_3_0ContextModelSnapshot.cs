@@ -125,8 +125,12 @@ namespace Garage_3._0.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MemberId");
+
                     b.HasIndex("RegNr")
                         .IsUnique();
+
+                    b.HasIndex("VehicleTypeId");
 
                     b.ToTable("Vehicle");
 
@@ -140,7 +144,7 @@ namespace Garage_3._0.Migrations
                             Model = "model1",
                             NrOfWheels = 4,
                             RegNr = "US_LM126",
-                            TimeOfArrival = new DateTime(2020, 5, 18, 13, 19, 49, 384, DateTimeKind.Local).AddTicks(1600),
+                            TimeOfArrival = new DateTime(2020, 5, 18, 12, 44, 50, 951, DateTimeKind.Local).AddTicks(9619),
                             VehicleTypeId = 1
                         },
                         new
@@ -152,7 +156,7 @@ namespace Garage_3._0.Migrations
                             Model = "model2",
                             NrOfWheels = 1,
                             RegNr = "BVG17",
-                            TimeOfArrival = new DateTime(2020, 5, 18, 13, 19, 49, 389, DateTimeKind.Local).AddTicks(1400),
+                            TimeOfArrival = new DateTime(2020, 5, 18, 12, 44, 50, 955, DateTimeKind.Local).AddTicks(7650),
                             VehicleTypeId = 2
                         },
                         new
@@ -164,7 +168,7 @@ namespace Garage_3._0.Migrations
                             Model = "model3",
                             NrOfWheels = 6,
                             RegNr = "BUS123",
-                            TimeOfArrival = new DateTime(2020, 5, 18, 13, 19, 49, 389, DateTimeKind.Local).AddTicks(1565),
+                            TimeOfArrival = new DateTime(2020, 5, 18, 12, 44, 50, 955, DateTimeKind.Local).AddTicks(7713),
                             VehicleTypeId = 3
                         },
                         new
@@ -176,7 +180,7 @@ namespace Garage_3._0.Migrations
                             Model = "model4",
                             NrOfWheels = 4,
                             RegNr = "ABC123",
-                            TimeOfArrival = new DateTime(2020, 5, 18, 13, 19, 49, 389, DateTimeKind.Local).AddTicks(1581),
+                            TimeOfArrival = new DateTime(2020, 5, 18, 12, 44, 50, 955, DateTimeKind.Local).AddTicks(7723),
                             VehicleTypeId = 4
                         },
                         new
@@ -235,6 +239,21 @@ namespace Garage_3._0.Migrations
                             Size = 2.0,
                             TypeName = "Bus"
                         });
+                });
+
+            modelBuilder.Entity("Garage_3._0.Models.Vehicle", b =>
+                {
+                    b.HasOne("Garage_3._0.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Garage_3._0.Models.VehicleType", "VehicleType")
+                        .WithMany("Vehicles")
+                        .HasForeignKey("VehicleTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
