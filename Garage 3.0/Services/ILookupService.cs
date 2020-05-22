@@ -6,6 +6,7 @@ namespace Garage_3._0.Services
     public interface ILookupService
     {
         List<SelectListItem> VehicleTypes();
+        List<SelectListItem> Members();
 
     }
 

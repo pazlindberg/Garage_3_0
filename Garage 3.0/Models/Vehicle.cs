@@ -16,12 +16,19 @@ namespace Garage_3._0.Models
         public string RegNr { get; set; }
 
         public int? ParkingSpaceId { get; set; }
+
+        //Foreign key
         public int VehicleTypeId { get; set; }
+
+        //Navigation
         public VehicleType VehicleType { get; set; }
 
+        //Foreign Key
         public int MemberId { get; set; }
 
+        //Navigation
         public Member Member { get; set; }
+
 
         [Range(0, 16)]
         [Display(Name = "Number of wheels")]

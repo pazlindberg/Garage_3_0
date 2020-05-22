@@ -19,29 +19,32 @@
                 <span asp-validation-for="RegNr" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                    <label asp-for="ParkingSpaceId" class="control-label"></label>
-                    <input asp-for="ParkingSpaceId" class="form-control" />
-                    <span asp-validation-for="ParkingSpaceId" class="text-danger"></span>
-                </div>*@
-        <div class="form-group">
-
-            <select asp-for="VehicleType" asp-items="@Lookup.VehicleTypes()"></select>
-            @*<select>
+            <label asp-for="ParkingSpaceId" class="control-label"></label>
+            <input asp-for="ParkingSpaceId" class="form-control" />
+            <span asp-validation-for="ParkingSpaceId" class="text-danger"></span>
+        </div>*@
+            <div class="form-group">
+                <select class="form-control" asp-for="VehicleTypeId" asp-items="@Lookup.VehicleTypes()"></select>
+                @*<select>
                 @foreach (var item in Lookup.VehicleTypes())
                 {
                 <option value="@item.Value">@item.Text</option>
                 }
             </select>*@
-
-            <label asp-for="VehicleTypeId" class="control-label"></label>
-            <input asp-for="VehicleTypeId" class="form-control" />
-            <span asp-validation-for="VehicleTypeId" class="text-danger"></span>
-        </div>
+            </div>
+            <div class="form-group">
+                <select class="form-control" asp-for="MemberId" asp-items="@Lookup.Members()"></select>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="VehicleTypeId" class="control-label"></label>
+                <input asp-for="VehicleTypeId" class="form-control" />
+                <span asp-validation-for="VehicleTypeId" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="MemberId" class="control-label"></label>
                 <input asp-for="MemberId" class="form-control" />
                 <span asp-validation-for="MemberId" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="NrOfWheels" class="control-label"></label>
                 <input asp-for="NrOfWheels" class="form-control" />
@@ -63,10 +66,10 @@
                 <span asp-validation-for="Model" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                    <label asp-for="TimeOfArrival" class="control-label"></label>
-                    <input asp-for="TimeOfArrival" class="form-control" />
-                    <span asp-validation-for="TimeOfArrival" class="text-danger"></span>
-                </div>*@
+            <label asp-for="TimeOfArrival" class="control-label"></label>
+            <input asp-for="TimeOfArrival" class="form-control" />
+            <span asp-validation-for="TimeOfArrival" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
