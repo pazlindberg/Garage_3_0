@@ -196,7 +196,7 @@ namespace Garage_3._0.Controllers
             v.FullName = $"{member.FirstName} {member.LastName}";
             v.ParkedTime = vehicle.TimeInGarage;
 
-            var timeInGarage = DateTime.Now.Subtract(vehicle.TimeOfArrival);
+            var timeInGarage = DateTime.Now.Subtract((DateTime)vehicle.TimeOfArrival);
             int mins = (timeInGarage.Days * 24 * 60) + (timeInGarage.Hours * 60) + timeInGarage.Minutes;
             const int minuteFee = 2;
             int cost = mins * minuteFee;
@@ -222,7 +222,7 @@ namespace Garage_3._0.Controllers
             return _context.Vehicle.Any(e => e.Id == id);
         }
 
-        public async Task<IActionResult> Filter(string regNrSearch)
+        public async Task<IActionResult> Filter(string regNrSearch, string? vehicleTypeIdSearch)
         {
             var model = string.IsNullOrWhiteSpace(regNrSearch) ?
                 _context.Vehicle :
