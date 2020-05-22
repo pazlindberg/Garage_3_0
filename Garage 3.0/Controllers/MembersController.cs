@@ -189,5 +189,17 @@ namespace Garage_3._0.Controllers
         {
             return _context.Member.Any(e => e.Id == id);
         }
+
+
+        public async Task<IActionResult> Filter(string emailSearch)
+        {
+            var model = string.IsNullOrWhiteSpace(emailSearch) ?
+                _context.Member :
+                _context.Member.Where(m => m.Email.ToLower().Contains(emailSearch.ToLower()));
+
+            return View(nameof(Index), await model.ToListAsync());
+        }
     }
 }
+
+

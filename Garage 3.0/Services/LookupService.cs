@@ -17,6 +17,18 @@ namespace Garage_3._0.Services
             _context = context;
         }
 
+        public List<SelectListItem> Members()
+        {
+            return _context.Member
+                .Select(v =>
+                          new SelectListItem()
+                          {
+                              Value = v.Id.ToString(),
+                              Text = v.Email
+                          })
+                .ToList();
+        }
+
         public List<SelectListItem> VehicleTypes() =>
              _context.VehicleType
                 .Select(v =>
