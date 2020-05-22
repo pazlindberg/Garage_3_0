@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Garage_3._0.Data;
 using Garage_3._0.Models;
+using Microsoft.AspNetCore.Routing;
 
 namespace Garage_3._0.Controllers
 {
@@ -143,32 +144,52 @@ namespace Garage_3._0.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vehicle = await _context.Vehicle.FindAsync(id);
+            var v = new Receipt();
+            
+            var memberId = vehicle.MemberId;
+            var member = await _context.Member.FindAsync(memberId);
+            v.FullName = $"{member.FirstName} {member.LastName}";
+            v.ParkedTime = vehicle.TimeInGarage;
+
+            var timeInGarage = DateTime.Now.Subtract(vehicle.TimeOfArrival);
+            int mins = timeInGarage.Hours * 60;
+            mins += timeInGarage.Minutes;
+            mins += timeInGarage.Days * 24 * 60;
+            const int minuteFee = 2;
+            int cost = mins * minuteFee;
+
+            var routeValues = new RouteValueDictionary  {
+                { "FullName", v.FullName },
+                { "ParkedTime", vehicle.TimeInGarage },
+                { "RegNr", vehicle.RegNr },
+                { "Cost", cost }};
+
             _context.Vehicle.Remove(vehicle);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Receipt),routeValues);
         }
 
+        public IActionResult Receipt(Receipt r)
+        {
+            return View(r);
+        }
+    
         private bool VehicleExists(int id)
         {
             return _context.Vehicle.Any(e => e.Id == id);
         }
 
-
-        public async Task<IActionResult> Filter(string regNrSearch, string vehicleTypeIdSearch)
+        public async Task<IActionResult> Filter(string regNrSearch)
         {
             var model = string.IsNullOrWhiteSpace(regNrSearch) ?
                 _context.Vehicle :
                 _context.Vehicle.Where(m => m.RegNr.ToLower().Contains(regNrSearch.ToLower()));
 
-            model = vehicleTypeIdSearch == null ?
-                model :
-                model.Where(m => vehicleTypeIdSearch == null ? 
-                    m.VehicleTypeId == null :  //always false
-                    m.VehicleTypeId.ToString() == vehicleTypeIdSearch);
-
+            //model = genre == null ?
+            //    model :
+            //    model.Where(m => m.Genre == (Genre)genre);
 
             return View(nameof(Index), await model.ToListAsync());
         }
-
     }
 }
