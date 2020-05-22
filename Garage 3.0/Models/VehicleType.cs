@@ -13,7 +13,5 @@ namespace Garage_3._0.Models
         public double Size { get; set; }
 
         public ICollection<Vehicle> Vehicles { get; set; }
-
-        //public List<SelectListItem> TypeList { get; set; }
     }
 }

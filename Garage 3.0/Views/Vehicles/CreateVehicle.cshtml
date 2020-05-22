@@ -27,9 +27,9 @@
 
             @*<label asp-for="VehicleType" class="control-label"></label>*@
 
-            <select asp-for="VehicleType" asp-items="@Lookup.VehicleTypes()" class="form-control"></select>
+            <select asp-for="VehicleTypeId" asp-items="@Lookup.VehicleTypes()" class="form-control"></select>
 
-            <label asp-for="VehicleTypeId" class="control-label"></label>
+            @*<label asp-for="VehicleTypeId" class="control-label"></label>*@
             <input asp-for="VehicleTypeId" class="form-control" />
             <span asp-validation-for="VehicleTypeId" class="text-danger"></span>
         </div>
@@ -37,7 +37,7 @@
                 <label asp-for="MemberId" class="control-label"></label>
                 <input asp-for="MemberId" class="form-control" />
                 <span asp-validation-for="MemberId" class="text-danger"></span>
-            </div>*@
+            </div>
             <div class="form-group">
                 <label asp-for="NrOfWheels" class="control-label"></label>
                 <input asp-for="NrOfWheels" class="form-control" />

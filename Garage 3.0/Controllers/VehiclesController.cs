@@ -49,6 +49,11 @@ namespace Garage_3._0.Controllers
             return View();
         }
 
+        public IActionResult Park()
+        {
+            return View();
+        }
+
         // POST: Vehicles/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -65,6 +70,28 @@ namespace Garage_3._0.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(vehicle);
+        }
+
+
+        public async Task<IActionResult> Parking(string regNr)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var vehicle = await _context.Vehicle
+                    .FirstOrDefaultAsync(m => m.RegNr == regNr);
+                    vehicle.TimeOfArrival = DateTime.Now;
+                    _context.Update(vehicle);
+                    await _context.SaveChangesAsync();
+                    TempData["UserMessage"] = "Park vehicle successful";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                }
+            }
+            return View("Park");
         }
 
         // GET: Vehicles/Edit/5
@@ -143,8 +170,12 @@ namespace Garage_3._0.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vehicle = await _context.Vehicle.FindAsync(id);
-            _context.Vehicle.Remove(vehicle);
+            vehicle.TimeOfArrival = null;
+            _context.Update(vehicle);
+            //_context.Vehicle.Remove(vehicle);
+
             await _context.SaveChangesAsync();
+            TempData["UserMessage"] = "Unpark vehicle successful";
             return RedirectToAction(nameof(Index));
         }
 
@@ -158,7 +189,7 @@ namespace Garage_3._0.Controllers
         {
             var model = string.IsNullOrWhiteSpace(regNrSearch) ?
                 _context.Vehicle :
-                _context.Vehicle.Where(m => m.RegNr.ToLower().Contains(regNrSearch.ToLower()));
+                _context.Vehicle.Where(m => m.RegNr.Trim().ToLower().Contains(regNrSearch.Trim().ToLower()));
 
             model = vehicleTypeIdSearch == null ?
                 model :
@@ -170,5 +201,27 @@ namespace Garage_3._0.Controllers
             return View(nameof(Index), await model.ToListAsync());
         }
 
+
+
+        public JsonResult GetEmail(string email)
+        {
+            var memberId= _context.Member.Where(x => x.Email == email.Trim()).Select(x => x.Id).FirstOrDefault();
+            var ddlRegNr = _context.Vehicle.Where(x => x.TimeOfArrival == null && x.MemberId == memberId).ToList(); //dropdownlist
+            List<SelectListItem> liRegNr = new List<SelectListItem>();
+
+            //liRegNr.Add(new SelectListItem { Text = "--Select RegNr--", Value = "0", });
+            if (ddlRegNr != null)
+            {
+                foreach (var x in ddlRegNr)
+                {
+                    liRegNr.Add(new SelectListItem { Text = x.RegNr, Value = x.Id.ToString() });
+                }
+            }
+            return Json(new SelectList(liRegNr, "Value", "Text", new Newtonsoft.Json.JsonSerializerSettings()));
+        }
+        public bool GetRegNr(string regNr)
+        {
+            return _context.Vehicle.Any(v => v.TimeOfArrival == null && v.RegNr == regNr.Trim());
+        }
     }
 }
