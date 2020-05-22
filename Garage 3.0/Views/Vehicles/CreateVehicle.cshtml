@@ -25,13 +25,9 @@
                 </div>*@
         <div class="form-group">
 
-            <select asp-for="VehicleType" asp-items="@Lookup.VehicleTypes()"></select>
-            @*<select>
-                @foreach (var item in Lookup.VehicleTypes())
-                {
-                <option value="@item.Value">@item.Text</option>
-                }
-            </select>*@
+            @*<label asp-for="VehicleType" class="control-label"></label>*@
+
+            <select asp-for="VehicleType" asp-items="@Lookup.VehicleTypes()" class="form-control"></select>
 
             <label asp-for="VehicleTypeId" class="control-label"></label>
             <input asp-for="VehicleTypeId" class="form-control" />

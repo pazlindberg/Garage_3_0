@@ -154,15 +154,18 @@ namespace Garage_3._0.Controllers
         }
 
 
-        public async Task<IActionResult> Filter(string regNrSearch)
+        public async Task<IActionResult> Filter(string regNrSearch, string vehicleTypeIdSearch)
         {
             var model = string.IsNullOrWhiteSpace(regNrSearch) ?
                 _context.Vehicle :
                 _context.Vehicle.Where(m => m.RegNr.ToLower().Contains(regNrSearch.ToLower()));
 
-            //model = genre == null ?
-            //    model :
-            //    model.Where(m => m.Genre == (Genre)genre);
+            model = vehicleTypeIdSearch == null ?
+                model :
+                model.Where(m => vehicleTypeIdSearch == null ? 
+                    m.VehicleTypeId == null :  //always false
+                    m.VehicleTypeId.ToString() == vehicleTypeIdSearch);
+
 
             return View(nameof(Index), await model.ToListAsync());
         }

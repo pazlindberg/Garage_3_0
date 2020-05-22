@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Garage_3._0.Migrations
 {
-    public partial class _0520m1 : Migration
+    public partial class _3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -97,8 +97,8 @@ namespace Garage_3._0.Migrations
                 columns: new[] { "Id", "Brand", "Color", "MemberId", "Model", "NrOfWheels", "ParkingSpaceId", "RegNr", "TimeOfArrival", "VehicleTypeId" },
                 values: new object[,]
                 {
-                    { 1, "aaa", "White", 1, "model1", 4, null, "US_LM126", new DateTime(2020, 5, 19, 14, 16, 17, 434, DateTimeKind.Local).AddTicks(9974), 1 },
-                    { 2, "bbb", "Black", 2, "model2", 1, null, "BVG17", new DateTime(2020, 5, 19, 14, 16, 17, 439, DateTimeKind.Local).AddTicks(726), 2 }
+                    { 1, "aaa", "White", 1, "model1", 4, null, "US_LM126", new DateTime(2020, 5, 21, 9, 53, 35, 574, DateTimeKind.Local).AddTicks(8427), 1 },
+                    { 2, "bbb", "Black", 2, "model2", 1, null, "BVG17", new DateTime(2020, 5, 21, 9, 53, 35, 578, DateTimeKind.Local).AddTicks(1515), 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -111,8 +111,8 @@ namespace Garage_3._0.Migrations
                 columns: new[] { "Id", "Brand", "Color", "MemberId", "Model", "NrOfWheels", "ParkingSpaceId", "RegNr", "TimeOfArrival", "VehicleTypeId" },
                 values: new object[,]
                 {
-                    { 3, "ccc", "Blue", 3, "model3", 6, null, "BUS123", new DateTime(2020, 5, 19, 14, 16, 17, 439, DateTimeKind.Local).AddTicks(822), 3 },
-                    { 4, "ddd", "Red", 4, "model4", 4, null, "ABC123", new DateTime(2020, 5, 19, 14, 16, 17, 439, DateTimeKind.Local).AddTicks(835), 4 }
+                    { 3, "ccc", "Blue", 3, "model3", 6, null, "BUS123", new DateTime(2020, 5, 21, 9, 53, 35, 578, DateTimeKind.Local).AddTicks(1589), 3 },
+                    { 4, "ddd", "Red", 4, "model4", 4, null, "ABC123", new DateTime(2020, 5, 21, 9, 53, 35, 578, DateTimeKind.Local).AddTicks(1601), 4 }
                 });
 
             migrationBuilder.CreateIndex(

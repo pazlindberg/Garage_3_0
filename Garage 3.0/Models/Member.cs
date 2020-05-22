@@ -18,36 +18,5 @@ namespace Garage_3._0.Models
         [StringLength(30, ErrorMessage = "Email must not be more than 30 char")]
         [Remote("IsAlreadySigned", "Members", HttpMethod = "POST", ErrorMessage = "Email already exists")]
         public string Email { get; set; }
-        // raden ovan fuckar upp create (inget händer när man trycker create efter att ha
-        // fyllt i formuläret - troligen måste checkexistmember implementeras men hur är kanske frågan(?)
-
     }
 }
-
-
-
-
-
-/*** MemberController???      new Member { Id = 1, RegNr = "US_LM126", vehicleType = VehicleType.Airplane, NrOfWheels = 4 },
-
-[AllowAnonymous]
-[HttpPost]
-public ActionResult CheckExistMember(string email)
-{
-    try
-    {
-        return Json(!ExistEmail(email));
-    }
-    catch (Exception ex)
-    {
-        return Json(false);
-    }
-
-    // return Json(!db.Users.Any(x => x.Email == email), JsonRequestBehavior.AllowGet);
-}
-
-
-private bool ExistEmail(string email)
-    => MemberManager.FindByEmail(email) != null;
-    
- */
