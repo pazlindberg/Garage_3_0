@@ -100,6 +100,11 @@ namespace Garage_3._0.Controllers
                 {
                     var vehicle = await _context.Vehicle
                     .FirstOrDefaultAsync(m => m.RegNr == regNr);
+                    if (vehicle == null)
+                    {
+                        TempData["UserMessage"] = "Park vehicle was not successful";
+                        return RedirectToAction(nameof(Index));
+                    }
                     vehicle.TimeOfArrival = DateTime.Now;
                     _context.Update(vehicle);
                     await _context.SaveChangesAsync();
@@ -246,7 +251,6 @@ namespace Garage_3._0.Controllers
             var ddlRegNr = _context.Vehicle.Where(x => x.TimeOfArrival == null && x.MemberId == memberId).ToList(); //dropdownlist
             List<SelectListItem> liRegNr = new List<SelectListItem>();
 
-            //liRegNr.Add(new SelectListItem { Text = "--Select RegNr--", Value = "0", });
             if (ddlRegNr != null)
             {
                 foreach (var x in ddlRegNr)

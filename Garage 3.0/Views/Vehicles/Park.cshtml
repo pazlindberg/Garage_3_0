@@ -45,13 +45,13 @@
 
 <script>
     $(document).ready(function () {
-        $("select#regNr").attr("disabled", true);
+        $("select#regNrSelect").attr("disabled", true);
         $("#SelectRegNrDiv").hide();
         //$("input#regNr").attr("disabled", true);
         //$("#input#regNr").hide();
         $("#submitRegNr").addClass("disabled");
 
-        $("select#regNr").empty();
+        $("select#regNrSelect").empty();
         $("input#regNr").empty();
         //$("#Search").on('keydown', function (e) {
         //    if (e.keyCode == 13) {
@@ -65,12 +65,12 @@
 
         $("#Search").on("input paste", function (e) {
             $("span#SearchSpan").text("")
-            $("input#regNr").val($("input#Search").val());
+            $("input#regNr").val("");
             $("#submitRegNr").removeClass("disabled");
         });
 
-        $("select#regNr").on('change', function (e) {
-            $("input#regNr").val($("select#regNr").text());
+        $("select#regNrSelect").on('change', function (e) {
+            $("input#regNr").val($("select#regNrSelect option:selected").text());
         });
 
 
@@ -90,15 +90,15 @@
                     data: { email: $("#Search").val() },
                     success: function (regNr) {  
                         $.each(regNr, function (i, regNr) {
-                            $("select#regNr").append('<option value="'
+                            $("select#regNrSelect").append('<option value="'
                                 + regNr.value + '">'
                                 + regNr.text + '</option>');
                         });
 
                         if (regNr.length > 0) {
                             $("#SelectRegNrDiv").show();
-                            $("select#regNr").attr("disabled", false);
-                            $("input#regNr").val($("select#regNr").text());
+                            $("select#regNrSelect").attr("disabled", false);
+                            $("input#regNr").val($("select#regNrSelect option:selected").text());
                         } else {
                             faildEmail = true;
                             if (faildRegNr) {
