@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Garage_3._0.Data;
 using Garage_3._0.Models;
+using Microsoft.AspNetCore.Routing;
+using Garage_3._0.ViewModels;
 
 namespace Garage_3._0.Controllers
 {
@@ -23,6 +25,23 @@ namespace Garage_3._0.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Vehicle.ToListAsync());
+        }
+
+        public async Task<IActionResult> Overview()
+        {
+
+            var model = _context.Vehicle
+                                .Include(v => v.VehicleType)
+                                .Include(v => v.Member)
+                                .Select(v => new OverviewViewModel
+                                {
+                                    Email = v.Member.Email,
+                                    TypeName = v.VehicleType.TypeName,
+                                    RegNr = v.RegNr,
+                                    TimeInGarage = v.TimeInGarage
+                                });
+
+            return View(await model.ToListAsync());
         }
 
         // GET: Vehicles/Details/5
@@ -70,6 +89,28 @@ namespace Garage_3._0.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(vehicle);
+        }
+
+
+        public async Task<IActionResult> Parking(string regNr)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var vehicle = await _context.Vehicle
+                    .FirstOrDefaultAsync(m => m.RegNr == regNr);
+                    vehicle.TimeOfArrival = DateTime.Now;
+                    _context.Update(vehicle);
+                    await _context.SaveChangesAsync();
+                    TempData["UserMessage"] = "Park vehicle successful";
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                }
+            }
+            return View("Park");
         }
 
         // GET: Vehicles/Edit/5
@@ -148,22 +189,44 @@ namespace Garage_3._0.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vehicle = await _context.Vehicle.FindAsync(id);
+            var v = new Receipt();
+            
+            var memberId = vehicle.MemberId;
+            var member = await _context.Member.FindAsync(memberId);
+            v.FullName = $"{member.FirstName} {member.LastName}";
+            v.ParkedTime = vehicle.TimeInGarage;
+
+            var timeInGarage = DateTime.Now.Subtract(vehicle.TimeOfArrival);
+            int mins = (timeInGarage.Days * 24 * 60) + (timeInGarage.Hours * 60) + timeInGarage.Minutes;
+            const int minuteFee = 2;
+            int cost = mins * minuteFee;
+
+            var routeValues = new RouteValueDictionary  {
+                { "FullName", v.FullName },
+                { "ParkedTime", vehicle.TimeInGarage },
+                { "RegNr", vehicle.RegNr },
+                { "Cost", cost }};
+
             _context.Vehicle.Remove(vehicle);
+            vehicle.TimeOfArrival = null;
+            _context.Update(vehicle);
+            //_context.Vehicle.Remove(vehicle);
+
             await _context.SaveChangesAsync();
+            TempData["UserMessage"] = "Unpark vehicle successful";
             return RedirectToAction(nameof(Index));
         }
-
+    
         private bool VehicleExists(int id)
         {
             return _context.Vehicle.Any(e => e.Id == id);
         }
 
-
-        public async Task<IActionResult> Filter(string regNrSearch, string vehicleTypeIdSearch)
+        public async Task<IActionResult> Filter(string regNrSearch)
         {
             var model = string.IsNullOrWhiteSpace(regNrSearch) ?
                 _context.Vehicle :
-                _context.Vehicle.Where(m => m.RegNr.ToLower().Contains(regNrSearch.ToLower()));
+                _context.Vehicle.Where(m => m.RegNr.Trim().ToLower().Contains(regNrSearch.Trim().ToLower()));
 
             model = vehicleTypeIdSearch == null ?
                 model :
@@ -177,13 +240,13 @@ namespace Garage_3._0.Controllers
 
 
 
-        public JsonResult GetRegNr(string email)
+        public JsonResult GetEmail(string email)
         {
-            var memberId= _context.Member.Where(x => x.Email == email).Select(x => x.Id).FirstOrDefault();
-            var ddlRegNr = _context.Vehicle.Where(x => x.MemberId == memberId).ToList(); //dropdownlist
+            var memberId= _context.Member.Where(x => x.Email == email.Trim()).Select(x => x.Id).FirstOrDefault();
+            var ddlRegNr = _context.Vehicle.Where(x => x.TimeOfArrival == null && x.MemberId == memberId).ToList(); //dropdownlist
             List<SelectListItem> liRegNr = new List<SelectListItem>();
 
-            liRegNr.Add(new SelectListItem { Text = "--Select State--", Value = "0", });
+            //liRegNr.Add(new SelectListItem { Text = "--Select RegNr--", Value = "0", });
             if (ddlRegNr != null)
             {
                 foreach (var x in ddlRegNr)
@@ -192,6 +255,11 @@ namespace Garage_3._0.Controllers
                 }
             }
             return Json(new SelectList(liRegNr, "Value", "Text", new Newtonsoft.Json.JsonSerializerSettings()));
+        }
+
+        public bool GetRegNr(string regNr)
+        {
+            return _context.Vehicle.Any(v => v.TimeOfArrival == null && v.RegNr == regNr.Trim());
         }
     }
 }

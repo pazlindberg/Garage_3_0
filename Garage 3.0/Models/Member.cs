@@ -18,5 +18,13 @@ namespace Garage_3._0.Models
         [StringLength(30, ErrorMessage = "Email must not be more than 30 char")]
         [Remote("IsAlreadySigned", "Members", HttpMethod = "POST", ErrorMessage = "Email already exists")]
         public string Email { get; set; }
+
+        public ICollection<Vehicle> Vehicles { get; set; }
+
+        public int NrOfVehicles
+        {
+            get { return Vehicles is null ? 0 : Vehicles.Count; }
+            set {}
+        }
     }
 }

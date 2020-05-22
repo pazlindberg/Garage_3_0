@@ -1,4 +1,4 @@
-﻿@model Garage_3._0.Models.Park_VehicleViewModel
+﻿@*@model Garage_3._0.Models.Park_VehicleViewModel*@
 
 @{
     ViewData["Title"] = "Park";
@@ -11,38 +11,28 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Parking">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            @*<div class="form-group">
-                <label asp-for="RegNr" class="control-label"></label>
-                <input asp-for="RegNr" class="form-control" />
-                <span asp-validation-for="RegNr" class="text-danger"></span>
-            </div>*@
+            @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
 
             <div class="form-group">
-                @Html.LabelFor(model => model.RegNr, htmlAttributes: new { @class = "control-label" })
-                @*<div class="col-md-10">*@
-                    @Html.DropDownListFor(model => model.RegNr, new SelectList(string.Empty, "Value", "Text"), "--Select reg.nr--", new { @class = "form-control" })
-
-                    @Html.ValidationMessageFor(model => model.RegNr, "", new { @class = "text-danger" })
-
+                <label class="control-label">Enter reg.nr of unparkt vehicle or email of owner</label>
+                <input id="Search" class="form-control" />
+                <span id="SearchSpan" class="text-danger"></span>
             </div>
+
+            <div id="SelectRegNrDiv" class="form-group">
+                <label class="control-label">Reg.nr</label>
+                <select name="regNrSelect" id="regNrSelect" class="control-label"></select>
+            </div>
+
+            <input name="regNr" id="regNr" class="form-control" hidden="hidden" />
+
             <div class="form-group">
-                <input type="submit" value="Park" class="btn btn-primary" />
+                <input type="submit" id="submitRegNr" value="Park" class="btn btn-primary" />
             </div>
+
         </form>
     </div>
 </div>
-
-
-
-
-
-
 
 
 
@@ -55,31 +45,102 @@
 
 <script>
     $(document).ready(function () {
+        $("select#regNr").attr("disabled", true);
+        $("#SelectRegNrDiv").hide();
+        //$("input#regNr").attr("disabled", true);
+        //$("#input#regNr").hide();
+        $("#submitRegNr").addClass("disabled");
 
-        $("#Email").change(function () {
-            $("select#RegNr").empty();
+        $("select#regNr").empty();
+        $("input#regNr").empty();
+        //$("#Search").on('keydown', function (e) {
+        //    if (e.keyCode == 13) {
+        //        $(this).blur();
+        //    }
+        //});
 
-            $("select#RegNr").attr("disabled", true);
+        //$(document).on('onmousedown', function (e) {
+        //        $("#Search").blur();
+        //});
+
+        $("#Search").on("input paste", function (e) {
+            $("span#SearchSpan").text("")
+            $("input#regNr").val($("input#Search").val());
+            $("#submitRegNr").removeClass("disabled");
+        });
+
+        $("select#regNr").on('change', function (e) {
+            $("input#regNr").val($("select#regNr").text());
+        });
+
+
+        $("form").submit(function (event) {
+            if ($("input#regNr").val() == '') event.preventDefault();
+        });
+
+        //$("#Search").change(function () {
+        $("#Search").on('change', function (e) { //blur 
+            var faildEmail = false;
+            var faildRegNr = false;
+            if ($("input#regNr").text() == '') {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetEmail")',
+                    dataType: 'json',
+                    data: { email: $("#Search").val() },
+                    success: function (regNr) {  
+                        $.each(regNr, function (i, regNr) {
+                            $("select#regNr").append('<option value="'
+                                + regNr.value + '">'
+                                + regNr.text + '</option>');
+                        });
+
+                        if (regNr.length > 0) {
+                            $("#SelectRegNrDiv").show();
+                            $("select#regNr").attr("disabled", false);
+                            $("input#regNr").val($("select#regNr").text());
+                        } else {
+                            faildEmail = true;
+                            if (faildRegNr) {
+                                $("span#SearchSpan").text("Not found");
+                                $("#submitRegNr").addClass("disabled");
+                            }
+                        }
+                    },
+                    error: function (ex) {
+                        alert('Failed.' + ex);
+                    }
+                });
+            }
 
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("GetRegNr")',
                 dataType: 'json',
-                data: { email: $("#Email").val() },
-                success: function (regNr) {
-                    $.each(regNr, function (i, regNr) {
-                        $("select#RegNr").append('<option value="'
-                            + regNr.value + '">'
-                            + regNr.text + '</option>');
-                    });
-                    setTimeout($("select#RegNr").attr("disabled", false), 10)
+                data: { regNr: $("#Search").val() },
+                success: function (resultRegNr) {
+                    if (resultRegNr) {
+                        $("input#regNr").val($("input#Search").val());
+                        $("#submitRegNr").removeClass("disabled");
+                    }
+                    else {
+                        faildRegNr = true;
+                        if (faildEmail) {
+                            $("span#SearchSpan").text("Not found");
+                            $("#submitRegNr").addClass("disabled");
+                        }
+                    }
                 },
                 error: function (ex) {
                     alert('Failed.' + ex);
                 }
             });
+
+
+            
+
             return false;
         })
     });
-    </script>
+</script>
 }
