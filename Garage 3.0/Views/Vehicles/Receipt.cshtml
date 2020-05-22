@@ -1,0 +1,14 @@
+﻿@model Garage_3._0.Models.Receipt
+@{
+    ViewData["Title"] = "Receipt";
+}
+
+<h1>Receipt</h1>
+<em>@Html.DisplayFor(model => model.FullName)</em> parkerade fordon med
+regnr <em>@Html.DisplayFor(model => model.RegNr)</em> under
+      <em>@Html.DisplayFor(model => model.ParkedTime)</em>,
+till en kostnad av <strong>@Html.DisplayFor(model => model.Cost)</strong> SEK.
+
+                   <p> <a asp-action="Index">Tillbaks...</a></p>
+
+

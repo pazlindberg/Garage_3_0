@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Garage_3._0.Models.Vehicle>
+@inject ILookupService Lookup
 
 @{
     ViewData["Title"] = "Index";
@@ -8,17 +9,20 @@
 
 <form asp-action="Filter">
     <div class="input-group mb-3">
-        <input type="text" class="form-control" name="regNrSearch" placeholder="Search on reg.nr..." />
-        @*<div class="input-group-append">
-                <select asp-for="Genre" asp-items="@Model.Genres" class="form-control">
-                    <option selected="selected" value="">Please select</option>
-                </select>
-            </div>*@
-        <div class="input-group-append">
+        <input type="text" class="form-control col-5" name="regNrSearch" placeholder="Search on reg.nr..." />
+
+        <div class="input-group-append col-5">
+            <select name="vehicleTypeIdSearch" asp-items="@Lookup.VehicleTypes()" class="form-control">
+                <option selected="selected" value="">Please select</option>
+            </select>
+        </div>
+
+        <div class="input-group-append col-2">
             <button type="submit" class="btn btn-primary"><i class="fa fa-search">&emsp;Search</i></button>
         </div>
     </div>
 </form>
+
 
 <p>
     <a asp-action="CreateVehicle">Create New</a>
@@ -61,41 +65,42 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RegNr)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ParkingSpaceId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VehicleTypeId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MemberId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NrOfWheels)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Color)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Brand)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Model)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TimeOfArrival)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegNr)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ParkingSpaceId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VehicleTypeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MemberId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NrOfWheels)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Color)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Brand)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeOfArrival)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

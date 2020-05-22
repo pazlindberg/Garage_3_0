@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Garage_3._0.Data;
 using Garage_3._0.Models;
-using Garage_3._0.ViewModels;
+using Microsoft.AspNetCore.Routing;
 
 namespace Garage_3._0.Controllers
 {
@@ -25,24 +25,6 @@ namespace Garage_3._0.Controllers
         {
             return View(await _context.Vehicle.ToListAsync());
         }
-
-        public async Task<IActionResult> Overview()
-        {
-
-            var model = _context.Vehicle
-                                .Include(v => v.VehicleType)
-                                .Include(v => v.Member)
-                                .Select(v => new OverviewViewModel
-                                {
-                                    Email = v.Member.Email,
-                                    TypeName = v.VehicleType.TypeName,
-                                    RegNr = v.RegNr,
-                                    TimeInGarage = v.TimeInGarage
-                                });
-
-           return View(await model.ToListAsync());
-        }
-
 
         // GET: Vehicles/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -162,16 +144,38 @@ namespace Garage_3._0.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vehicle = await _context.Vehicle.FindAsync(id);
+            var v = new Receipt();
+            
+            var memberId = vehicle.MemberId;
+            var member = await _context.Member.FindAsync(memberId);
+            v.FullName = $"{member.FirstName} {member.LastName}";
+            v.ParkedTime = vehicle.TimeInGarage;
+
+            var timeInGarage = DateTime.Now.Subtract(vehicle.TimeOfArrival);
+            int mins = (timeInGarage.Days * 24 * 60) + (timeInGarage.Hours * 60) + timeInGarage.Minutes;
+            const int minuteFee = 2;
+            int cost = mins * minuteFee;
+
+            var routeValues = new RouteValueDictionary  {
+                { "FullName", v.FullName },
+                { "ParkedTime", vehicle.TimeInGarage },
+                { "RegNr", vehicle.RegNr },
+                { "Cost", cost }};
+
             _context.Vehicle.Remove(vehicle);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Receipt),routeValues);
         }
 
+        public IActionResult Receipt(Receipt r)
+        {
+            return View(r);
+        }
+    
         private bool VehicleExists(int id)
         {
             return _context.Vehicle.Any(e => e.Id == id);
         }
-
 
         public async Task<IActionResult> Filter(string regNrSearch)
         {
@@ -185,6 +189,5 @@ namespace Garage_3._0.Controllers
 
             return View(nameof(Index), await model.ToListAsync());
         }
-
     }
 }
