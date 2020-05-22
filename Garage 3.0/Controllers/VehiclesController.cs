@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Garage_3._0.Data;
 using Garage_3._0.Models;
+using Microsoft.AspNetCore.Routing;
 
 namespace Garage_3._0.Controllers
 {
@@ -143,10 +144,62 @@ namespace Garage_3._0.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vehicle = await _context.Vehicle.FindAsync(id);
+
+            //add to receipt:
+            var v = new Receipt();
+            
+            v.ParkedTime = "testing time";
+
+            var memberId = vehicle.MemberId;
+            var member = await _context.Member.FindAsync(memberId);
+            v.FullName = $"{member.FirstName} {member.LastName}";
+
+            var routeValues = new RouteValueDictionary  {
+                { "FullName", v.FullName },
+                { "ParkedTime", v.ParkedTime }
+                                                        };
+            //---
+
             _context.Vehicle.Remove(vehicle);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Receipt),routeValues);
         }
+
+        public IActionResult Receipt(Receipt r)
+        {
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //var vehicle = await _context.Vehicle
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            //if (vehicle == null)
+            //{
+            //    return NotFound();
+            //}
+
+            return View(r);
+        }
+        /*[HttpPost, ActionName("Receipt")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ReceiptPost(Receipt r)
+        {
+            //var vehicle = await _context.Vehicle.FindAsync(id);
+
+            //add to receipt:
+            //var v = new Receipt();
+            //v.FullName = "testing";
+            //v.ParkedTime = "testing time";
+            //var routeValues = new RouteValueDictionary  {
+            //    { "receipt", v }
+            //                                            };
+            //---
+
+            //_context.Vehicle.Remove(vehicle);
+            //await _context.SaveChangesAsync();
+            return View();
+        }*/
 
         private bool VehicleExists(int id)
         {
