@@ -144,19 +144,6 @@ namespace Garage_3._0.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vehicle = await _context.Vehicle.FindAsync(id);
-
-            //add to receipt:
-            /*
-             * var r = parkedVehicle.RegNr;
-            var v = parkedVehicle.VehicleType;
-            var n = parkedVehicle.NrOfWheels;
-            var c = parkedVehicle.Color;
-            var b = parkedVehicle.Brand;
-            var m = parkedVehicle.Model;            //whatever
-            var t = parkedVehicle.TimeOfArrival;
-            var tg = parkedVehicle.TimeInGarage;
-             * 
-             */
             var v = new Receipt();
             
             var memberId = vehicle.MemberId;
@@ -175,9 +162,7 @@ namespace Garage_3._0.Controllers
                 { "FullName", v.FullName },
                 { "ParkedTime", vehicle.TimeInGarage },
                 { "RegNr", vehicle.RegNr },
-                { "Cost", cost }
-                                                        };
-            //---
+                { "Cost", cost }};
 
             _context.Vehicle.Remove(vehicle);
             await _context.SaveChangesAsync();
@@ -186,45 +171,13 @@ namespace Garage_3._0.Controllers
 
         public IActionResult Receipt(Receipt r)
         {
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var vehicle = await _context.Vehicle
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-            //if (vehicle == null)
-            //{
-            //    return NotFound();
-            //}
-
             return View(r);
         }
-        /*[HttpPost, ActionName("Receipt")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ReceiptPost(Receipt r)
-        {
-            //var vehicle = await _context.Vehicle.FindAsync(id);
-
-            //add to receipt:
-            //var v = new Receipt();
-            //v.FullName = "testing";
-            //v.ParkedTime = "testing time";
-            //var routeValues = new RouteValueDictionary  {
-            //    { "receipt", v }
-            //                                            };
-            //---
-
-            //_context.Vehicle.Remove(vehicle);
-            //await _context.SaveChangesAsync();
-            return View();
-        }*/
-
+    
         private bool VehicleExists(int id)
         {
             return _context.Vehicle.Any(e => e.Id == id);
         }
-
 
         public async Task<IActionResult> Filter(string regNrSearch)
         {
@@ -238,6 +191,5 @@ namespace Garage_3._0.Controllers
 
             return View(nameof(Index), await model.ToListAsync());
         }
-
     }
 }
