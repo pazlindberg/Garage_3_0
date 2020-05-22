@@ -167,6 +167,7 @@ namespace Garage_3._0.Controllers
             var timeInGarage = DateTime.Now.Subtract(vehicle.TimeOfArrival);
             int mins = timeInGarage.Hours * 60;
             mins += timeInGarage.Minutes;
+            mins += timeInGarage.Days * 24 * 60;
             const int minuteFee = 2;
             int cost = mins * minuteFee;
 
