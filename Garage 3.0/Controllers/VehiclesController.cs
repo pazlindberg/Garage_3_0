@@ -146,17 +146,35 @@ namespace Garage_3._0.Controllers
             var vehicle = await _context.Vehicle.FindAsync(id);
 
             //add to receipt:
+            /*
+             * var r = parkedVehicle.RegNr;
+            var v = parkedVehicle.VehicleType;
+            var n = parkedVehicle.NrOfWheels;
+            var c = parkedVehicle.Color;
+            var b = parkedVehicle.Brand;
+            var m = parkedVehicle.Model;            //whatever
+            var t = parkedVehicle.TimeOfArrival;
+            var tg = parkedVehicle.TimeInGarage;
+             * 
+             */
             var v = new Receipt();
             
-            v.ParkedTime = "testing time";
-
             var memberId = vehicle.MemberId;
             var member = await _context.Member.FindAsync(memberId);
             v.FullName = $"{member.FirstName} {member.LastName}";
+            v.ParkedTime = vehicle.TimeInGarage;
+
+            var timeInGarage = DateTime.Now.Subtract(vehicle.TimeOfArrival);
+            int mins = timeInGarage.Hours * 60;
+            mins += timeInGarage.Minutes;
+            const int minuteFee = 2;
+            int cost = mins * minuteFee;
 
             var routeValues = new RouteValueDictionary  {
                 { "FullName", v.FullName },
-                { "ParkedTime", v.ParkedTime }
+                { "ParkedTime", vehicle.TimeInGarage },
+                { "RegNr", vehicle.RegNr },
+                { "Cost", cost }
                                                         };
             //---
 

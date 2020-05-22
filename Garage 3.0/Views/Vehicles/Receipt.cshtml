@@ -4,6 +4,9 @@
 }
 
 <h1>Receipt</h1>
-@Html.DisplayFor(model => model.FullName)
-@Html.DisplayFor(model => model.ParkedTime)
+<em>@Html.DisplayFor(model => model.FullName)</em> parkerade fordon med
+regnr <em>@Html.DisplayFor(model => model.RegNr)</em> under
+      <em>@Html.DisplayFor(model => model.ParkedTime)</em>,
+till en kostnad av <strong>@Html.DisplayFor(model => model.Cost)</strong> SEK.
+
 
