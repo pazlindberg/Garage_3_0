@@ -22,7 +22,9 @@ a {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
+
 }
+
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -61,7 +63,7 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
-}
+  }
 .footer {
   position: absolute;
   bottom: 0;
