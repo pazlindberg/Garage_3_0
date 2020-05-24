@@ -73,6 +73,11 @@ namespace Garage_3._0.Controllers
             return View();
         }
 
+        public IActionResult Receipt(Receipt r)
+        {
+            return View(r);
+        }
+
         // POST: Vehicles/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -200,8 +205,12 @@ namespace Garage_3._0.Controllers
             var member = await _context.Member.FindAsync(memberId);
             v.FullName = $"{member.FirstName} {member.LastName}";
             v.ParkedTime = vehicle.TimeInGarage;
+            TimeSpan timeInGarage;
 
-            var timeInGarage = DateTime.Now.Subtract((DateTime)vehicle.TimeOfArrival);
+            if (vehicle.TimeOfArrival != null)
+                timeInGarage = DateTime.Now.Subtract((DateTime)vehicle.TimeOfArrival);
+            else timeInGarage = DateTime.Now.Subtract(DateTime.Now);
+            
             int mins = (timeInGarage.Days * 24 * 60) + (timeInGarage.Hours * 60) + timeInGarage.Minutes;
             const int minuteFee = 2;
             int cost = mins * minuteFee;
@@ -219,7 +228,7 @@ namespace Garage_3._0.Controllers
 
             await _context.SaveChangesAsync();
             TempData["UserMessage"] = "Unpark vehicle successful";
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Receipt),routeValues);
         }
     
         private bool VehicleExists(int id)
