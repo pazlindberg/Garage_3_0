@@ -37,6 +37,9 @@ namespace Garage_3._0.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NrOfVehicles")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
@@ -50,35 +53,40 @@ namespace Garage_3._0.Migrations
                             Id = 1,
                             Email = "johan.andersson@gmail.com",
                             FirstName = "Johan",
-                            LastName = "Andersson"
+                            LastName = "Andersson",
+                            NrOfVehicles = 0
                         },
                         new
                         {
                             Id = 2,
                             Email = "anna.lind@yahoo.se",
                             FirstName = "Anna",
-                            LastName = "Lind"
+                            LastName = "Lind",
+                            NrOfVehicles = 0
                         },
                         new
                         {
                             Id = 3,
                             Email = "dimman@lexicon.se",
                             FirstName = "Dimitris",
-                            LastName = "Björlingh"
+                            LastName = "Björlingh",
+                            NrOfVehicles = 0
                         },
                         new
                         {
                             Id = 4,
                             Email = "bruce.lee@jeetkunedo.cn",
                             FirstName = "Bruce",
-                            LastName = "Lee"
+                            LastName = "Lee",
+                            NrOfVehicles = 0
                         },
                         new
                         {
                             Id = 5,
                             Email = "saka.kivi@soumi.fi",
                             FirstName = "Sakari",
-                            LastName = "Kivimäki"
+                            LastName = "Kivimäki",
+                            NrOfVehicles = 0
                         });
                 });
 
@@ -115,7 +123,7 @@ namespace Garage_3._0.Migrations
                         .HasColumnType("nvarchar(32)")
                         .HasMaxLength(32);
 
-                    b.Property<DateTime>("TimeOfArrival")
+                    b.Property<DateTime?>("TimeOfArrival")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getdate()");
@@ -144,7 +152,7 @@ namespace Garage_3._0.Migrations
                             Model = "model1",
                             NrOfWheels = 4,
                             RegNr = "US_LM126",
-                            TimeOfArrival = new DateTime(2020, 5, 19, 14, 16, 17, 434, DateTimeKind.Local).AddTicks(9974),
+                            TimeOfArrival = new DateTime(2020, 5, 23, 10, 28, 9, 966, DateTimeKind.Local).AddTicks(4896),
                             VehicleTypeId = 1
                         },
                         new
@@ -156,7 +164,7 @@ namespace Garage_3._0.Migrations
                             Model = "model2",
                             NrOfWheels = 1,
                             RegNr = "BVG17",
-                            TimeOfArrival = new DateTime(2020, 5, 19, 14, 16, 17, 439, DateTimeKind.Local).AddTicks(726),
+                            TimeOfArrival = new DateTime(2020, 5, 23, 10, 28, 9, 970, DateTimeKind.Local).AddTicks(2990),
                             VehicleTypeId = 2
                         },
                         new
@@ -168,7 +176,7 @@ namespace Garage_3._0.Migrations
                             Model = "model3",
                             NrOfWheels = 6,
                             RegNr = "BUS123",
-                            TimeOfArrival = new DateTime(2020, 5, 19, 14, 16, 17, 439, DateTimeKind.Local).AddTicks(822),
+                            TimeOfArrival = new DateTime(2020, 5, 23, 10, 28, 9, 970, DateTimeKind.Local).AddTicks(3050),
                             VehicleTypeId = 3
                         },
                         new
@@ -180,7 +188,7 @@ namespace Garage_3._0.Migrations
                             Model = "model4",
                             NrOfWheels = 4,
                             RegNr = "ABC123",
-                            TimeOfArrival = new DateTime(2020, 5, 19, 14, 16, 17, 439, DateTimeKind.Local).AddTicks(835),
+                            TimeOfArrival = new DateTime(2020, 5, 23, 10, 28, 9, 970, DateTimeKind.Local).AddTicks(3061),
                             VehicleTypeId = 4
                         },
                         new
@@ -192,7 +200,6 @@ namespace Garage_3._0.Migrations
                             Model = "model5",
                             NrOfWheels = 2,
                             RegNr = "ADZ967",
-                            TimeOfArrival = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             VehicleTypeId = 2
                         });
                 });
@@ -244,7 +251,7 @@ namespace Garage_3._0.Migrations
             modelBuilder.Entity("Garage_3._0.Models.Vehicle", b =>
                 {
                     b.HasOne("Garage_3._0.Models.Member", "Member")
-                        .WithMany()
+                        .WithMany("Vehicles")
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
