@@ -31,15 +31,26 @@
     </dl>
 
     <table>
-    @foreach (var item in Model.Vehicles) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.RegNr)
-        </td>
-    </tr>
-    }
+        <thead>
+            <tr>
+                <th>
+                Reg.nr
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Vehicles)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RegNr)
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 </div>
+<br><br>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
