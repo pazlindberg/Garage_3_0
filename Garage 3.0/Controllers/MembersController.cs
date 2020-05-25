@@ -22,7 +22,7 @@ namespace Garage_3._0.Controllers
         // GET: Members
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Member.ToListAsync());
+            return View(await _context.Member.Include(m => m.Vehicles).ToListAsync());
         }
 
         // GET: Members/Details/5

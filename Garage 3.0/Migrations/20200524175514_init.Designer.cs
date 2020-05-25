@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Garage_3._0.Migrations
 {
     [DbContext(typeof(Garage_3_0Context))]
-    [Migration("20200524095810_0524init")]
-    partial class _0524init
+    [Migration("20200524175514_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -154,7 +154,7 @@ namespace Garage_3._0.Migrations
                             Model = "model1",
                             NrOfWheels = 4,
                             RegNr = "US_LM126",
-                            TimeOfArrival = new DateTime(2020, 5, 23, 10, 28, 9, 966, DateTimeKind.Local).AddTicks(4896),
+                            TimeOfArrival = new DateTime(2020, 5, 23, 18, 25, 14, 19, DateTimeKind.Local).AddTicks(3662),
                             VehicleTypeId = 1
                         },
                         new
@@ -166,7 +166,7 @@ namespace Garage_3._0.Migrations
                             Model = "model2",
                             NrOfWheels = 1,
                             RegNr = "BVG17",
-                            TimeOfArrival = new DateTime(2020, 5, 23, 10, 28, 9, 970, DateTimeKind.Local).AddTicks(2990),
+                            TimeOfArrival = new DateTime(2020, 5, 23, 18, 25, 14, 23, DateTimeKind.Local).AddTicks(1224),
                             VehicleTypeId = 2
                         },
                         new
@@ -178,7 +178,7 @@ namespace Garage_3._0.Migrations
                             Model = "model3",
                             NrOfWheels = 6,
                             RegNr = "BUS123",
-                            TimeOfArrival = new DateTime(2020, 5, 23, 10, 28, 9, 970, DateTimeKind.Local).AddTicks(3050),
+                            TimeOfArrival = new DateTime(2020, 5, 23, 18, 25, 14, 23, DateTimeKind.Local).AddTicks(1296),
                             VehicleTypeId = 3
                         },
                         new
@@ -190,7 +190,7 @@ namespace Garage_3._0.Migrations
                             Model = "model4",
                             NrOfWheels = 4,
                             RegNr = "ABC123",
-                            TimeOfArrival = new DateTime(2020, 5, 23, 10, 28, 9, 970, DateTimeKind.Local).AddTicks(3061),
+                            TimeOfArrival = new DateTime(2020, 5, 23, 18, 25, 14, 23, DateTimeKind.Local).AddTicks(1310),
                             VehicleTypeId = 4
                         },
                         new
