@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Garage_3._0.Models.Vehicle>
+﻿@model IEnumerable<Garage_3._0.ViewModels.IndexOverviewViewModel>
 @inject ILookupService Lookup
 
 @{
@@ -37,14 +37,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.RegNr)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeName)
+            </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.ParkingSpaceId)
+                @Html.DisplayNameFor(model => model.VehicleTypeId)
             </th>*@
             <th>
-                @Html.DisplayNameFor(model => model.VehicleType.TypeName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Member.Email)
+                @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NrOfWheels)
@@ -71,14 +71,14 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.RegNr)
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TypeName)
+                </td>
                 @*<td>
-                    @Html.DisplayFor(modelItem => item.Member.NrOfVehicles)
+                    @Html.DisplayFor(modelItem => item.VehicleTypeId)
                 </td>*@
                 <td>
-                    @Html.DisplayFor(modelItem => item.VehicleType.TypeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Member.Email)
+                    @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NrOfWheels)
@@ -104,3 +104,4 @@
         }
     </tbody>
 </table>
+

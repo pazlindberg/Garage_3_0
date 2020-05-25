@@ -24,7 +24,36 @@ namespace Garage_3._0.Controllers
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Vehicle.ToListAsync());
+            var model = _context.Vehicle
+                                .Include(v => v.VehicleType)
+                                .Include(v => v.Member);
+
+            return View(await model.ToListAsync());
+        }
+
+        public async Task<IActionResult> IndexOverview()
+        {
+          
+
+            var model = _context.Vehicle
+                                .Include(v => v.VehicleType)
+                                .Include(v => v.Member)
+                                .Select(v => new IndexOverviewViewModel
+                                {
+                                    Id = v.Id,
+                                    VehicleTypeId = v.VehicleTypeId,
+                                    Email = v.Member.Email,
+                                    RegNr = v.RegNr,
+                                    TypeName = v.VehicleType.TypeName,
+                                    NrOfWheels = v.NrOfWheels,
+                                    Color = v.Color,
+                                    Brand = v.Brand,
+                                    Model = v.Model,
+                                    TimeOfArrival = v.TimeOfArrival
+                                });
+          
+           
+            return View(await model.ToListAsync());
         }
 
         public async Task<IActionResult> Overview()
@@ -245,8 +274,11 @@ namespace Garage_3._0.Controllers
         public async Task<IActionResult> Filter(string regNrSearch, string? vehicleTypeIdSearch)
         {
             var model = string.IsNullOrWhiteSpace(regNrSearch) ?
-                _context.Vehicle :
-                _context.Vehicle.Where(m => m.RegNr.Trim().ToLower().Contains(regNrSearch.Trim().ToLower()));
+                _context.Vehicle.Include(v => v.VehicleType)
+                                .Include(v => v.Member) :
+                _context.Vehicle.Include(v => v.VehicleType)
+                                .Include(v => v.Member)
+                                .Where(v => v.RegNr.Trim().ToLower().Contains(regNrSearch.Trim().ToLower()));
 
             model = vehicleTypeIdSearch == null ?
                 model :
