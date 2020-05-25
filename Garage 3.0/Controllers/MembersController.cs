@@ -33,7 +33,7 @@ namespace Garage_3._0.Controllers
                 return NotFound();
             }
 
-            var member = await _context.Member.Include(v=>v.Vehicles)
+            var member = await _context.Member.Include(v=>v.Vehicles).ThenInclude(v=>v.VehicleType)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (member == null)
             {

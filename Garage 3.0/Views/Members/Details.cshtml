@@ -30,22 +30,20 @@
         </dd>
     </dl>
 
-    <table>
+    <table class="table">
         <thead>
             <tr>
-                <th>
-                Reg.nr
-                </th>
+                <th>Reg.nr</th>
+                <th>Vehicle type</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Vehicles)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RegNr)
-                    </td>
-                </tr>
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.RegNr)</td>
+                <td>@Html.DisplayFor(modelItem => item.VehicleType.TypeName)</td>
+            </tr>
             }
         </tbody>
     </table>
