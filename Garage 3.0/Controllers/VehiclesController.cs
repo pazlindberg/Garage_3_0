@@ -91,6 +91,9 @@ namespace Garage_3._0.Controllers
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
                 TempData["UserMessage"] = "Save vehicle successful";
+
+                //Member m =_context.Member.FindAsync(vehicle.MemberId);
+                
                 return RedirectToAction(nameof(Index));
             }
             return View(vehicle);
