@@ -107,7 +107,7 @@ namespace Garage_3._0.Controllers
                     .FirstOrDefaultAsync(m => m.RegNr == regNr);
                     if (vehicle == null)
                     {
-                        TempData["UserMessage"] = "Park vehicle was not successful";
+                        TempData["UserDismissMessage"] = "Park vehicle was not successful";
                         return RedirectToAction(nameof(Index));
                     }
                     vehicle.TimeOfArrival = DateTime.Now;
@@ -189,7 +189,11 @@ namespace Garage_3._0.Controllers
             {
                 return NotFound();
             }
-
+            if (vehicle.TimeOfArrival == null)
+            {
+                TempData["UserDismissMessage"] = "Vehicle already unparked";
+                return RedirectToAction(nameof(Index));
+            }
             return View(vehicle);
         }
 
@@ -199,6 +203,8 @@ namespace Garage_3._0.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vehicle = await _context.Vehicle.FindAsync(id);
+
+
             var v = new Receipt();
             
             var memberId = vehicle.MemberId;
@@ -221,7 +227,7 @@ namespace Garage_3._0.Controllers
                 { "RegNr", vehicle.RegNr },
                 { "Cost", cost }};
 
-            _context.Vehicle.Remove(vehicle);
+            //_context.Vehicle.Remove(vehicle);
             vehicle.TimeOfArrival = null;
             _context.Update(vehicle);
             //_context.Vehicle.Remove(vehicle);
