@@ -22,7 +22,7 @@ namespace Garage_3._0.Controllers
         // GET: Members
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Member.ToListAsync());
+            return View(await _context.Member.Include(v => v.Vehicles).ToListAsync());
         }
 
         // GET: Members/Details/5
@@ -33,7 +33,7 @@ namespace Garage_3._0.Controllers
                 return NotFound();
             }
 
-            var member = await _context.Member
+            var member = await _context.Member.Include(v=>v.Vehicles)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (member == null)
             {
